@@ -65,7 +65,12 @@ function getTableData(raw, dates) {
   return Object.keys(users).map(username => users[username]);
 }
 
+const EmptyStandup = () => {
+  return <h4 style={{ color: '#aaa' }}>No entry today</h4>;
+};
 const Standup = ({ prev_day, day, blocker, next, grouping }) => {
+  if (!prev_day && !day & !blocker) return <EmptyStandup />;
+
   const onMissing = name =>
     name === 'tick' ? emoji.emojify(':white_check_mark:') : `:${name}:`;
   const formatText = s =>
