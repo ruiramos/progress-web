@@ -3,8 +3,11 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { getStandups } from '../api';
 
+const redirect_uri = process.env.REDIRECT_URI;
+const linkHref = `https://slack.com/oauth/authorize?scope=identity.basic&client_id=2168708159.732663285622&redirect_uri=${redirect_uri}`;
+
 const SignInButton = () => (
-  <a href="https://slack.com/oauth/authorize?scope=identity.basic&client_id=2168708159.732663285622&redirect_uri=http://localhost:3000/api/oauth">
+  <a href={linkHref}>
     <img
       alt="Sign in with Slack"
       height="40"
