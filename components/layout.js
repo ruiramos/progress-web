@@ -11,7 +11,7 @@ const Layout = props => (
       `}
     </style>
     <Grid container spacing={2}>
-      <Header />
+      <Header {...props} />
       <Grid item xs={12}>
         {props.children}
       </Grid>
