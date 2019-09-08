@@ -159,7 +159,7 @@ const Standups = () => {
   }, [weekDif]);
 
   return (
-    <Layout>
+    <Layout inApp={true}>
       <Grid container>
         <Grid item xs={6} style={{ textAlign: 'left', marginBottom: 6 }}>
           <Link href={{ query: { ...router.query, weekDif: weekDif - 1 } }}>

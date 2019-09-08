@@ -12,7 +12,7 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { useRouter } from 'next/router';
 
-const Header = () => {
+const Header = props => {
   const router = useRouter();
   let { grouping } = router.query;
   grouping = grouping || 'day';
@@ -26,6 +26,10 @@ const Header = () => {
 
   return (
     <Grid item container className="header-root">
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
       <style jsx global>
         {`
           .header-root {
@@ -50,23 +54,27 @@ const Header = () => {
       </style>
       <Grid item xs>
         <Typography variant="h4" component="h1">
-          <span>Progress</span>
+          <span>Progress</span> web ui
         </Typography>
       </Grid>
-      <Grid item xs={4} className="toolbar-container">
-        <InputLabel style={{ display: 'inline-flex', paddingRight: 10 }}>
-          Show:
-        </InputLabel>
-        <ToggleButtonGroup
-          size="small"
-          value={grouping}
-          exclusive
-          onChange={handleGrouping}
-        >
-          <ToggleButton value="day">standups</ToggleButton>
-          <ToggleButton value="progress">progress</ToggleButton>
-        </ToggleButtonGroup>
-      </Grid>
+      {props.inApp ? (
+        <Grid item xs={4} className="toolbar-container">
+          <InputLabel style={{ display: 'inline-flex', paddingRight: 10 }}>
+            Show:
+          </InputLabel>
+          <ToggleButtonGroup
+            size="small"
+            value={grouping}
+            exclusive
+            onChange={handleGrouping}
+          >
+            <ToggleButton value="day">standups</ToggleButton>
+            <ToggleButton value="progress">progress</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+      ) : (
+        ''
+      )}
     </Grid>
   );
 };
