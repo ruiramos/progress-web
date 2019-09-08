@@ -1,7 +1,7 @@
 /* eslint-env browser */
 import fetch from 'isomorphic-fetch';
 
-const apiUrl = 'http://localhost:3000/api';
+const apiUrl = 'https://pacific-beyond-39873.herokuapp.com/api';
 
 export async function getStandups(dateFrom, dateTo) {
   return makeGetRequest(

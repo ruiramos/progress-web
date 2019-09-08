@@ -17,8 +17,6 @@ export default jwtAuth(SECRET)(async (req, res) => {
 });
 
 async function getStandupsForTeam(id, dateFrom, dateTo) {
-  id = 'T02DB1B7L';
-
   return await query(
     `SELECT s.*, u.real_name, u.avatar_url FROM standups s
       LEFT JOIN users u on u.username = s.username
