@@ -117,8 +117,7 @@ const DateTh = ({ date }) => (
   <TableCell className="date-th">
     <style jsx global>
       {`
-        .date-th,
-        html .MuiTableCell-head {
+        .date-th {
           width: 18%;
         }
       `}
@@ -206,6 +205,10 @@ const Standups = () => {
 
             .standups-table td {
               vertical-align: top;
+            }
+
+            .standups-table td a {
+              word-break: break-all;
             }
 
             .standups-table tr:nth-child(2n) td {
