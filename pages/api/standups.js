@@ -22,7 +22,7 @@ async function getStandupsForTeam(id, dateFrom, dateTo) {
       LEFT JOIN users u on u.username = s.username
       WHERE u.team_id = $1
       AND s.date >= $2
-      AND s.date < $3
+      AND s.date <= $3
     `,
     [id, dateFrom, dateTo]
   );
