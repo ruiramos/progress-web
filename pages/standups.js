@@ -117,7 +117,8 @@ const DateTh = ({ date }) => (
   <TableCell className="date-th">
     <style jsx global>
       {`
-        .date-th {
+        .date-th,
+        html .MuiTableCell-head {
           width: 18%;
         }
       `}
