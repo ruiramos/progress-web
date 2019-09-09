@@ -122,7 +122,7 @@ const DateTh = ({ date }) => (
         }
       `}
     </style>
-    <h4>{date.format('dddd')}</h4>
+    <h3>{date.format('dddd')}</h3>
     <p>{date.format('DD MMM YYYY')}</p>
   </TableCell>
 );
