@@ -19,6 +19,9 @@ import {
 import Layout from '../components/layout';
 import MuiLink from '@material-ui/core/Link';
 
+const Entities = require('html-entities').AllHtmlEntities;
+const entities = new Entities();
+
 moment.updateLocale('en', {
   week: {
     dow: 1, // First day of week is Monday
@@ -74,7 +77,9 @@ const Standup = ({ prev_day, day, blocker, next, grouping }) => {
   const onMissing = name =>
     name === 'tick' ? emoji.emojify(':white_check_mark:') : `:${name}:`;
   const formatText = s =>
-    s ? <Linkify>{nl2br(emoji.emojify(s, onMissing))}</Linkify> : null;
+    s ? (
+      <Linkify>{nl2br(entities.decode(emoji.emojify(s, onMissing)))}</Linkify>
+    ) : null;
 
   if (grouping == GROUPINGS.day) {
     return (
