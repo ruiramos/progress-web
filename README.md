@@ -16,10 +16,6 @@ For JWT:
 
 To connect to the postgres db:
 ```
- - PGUSER
- - PGHOST
- - PGPASSWORD
- - PGDATABASE
- - PGPORT
+ - DATABASE_URL
 ```
 
