@@ -1,27 +1,26 @@
 /* eslint-env node */
-const { createServer } = require('http');
-const { parse } = require('url');
+const express = require('express');
 const next = require('next');
 
+const sslRedirect = require('heroku-ssl-redirect');
+const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const sslRedirect = require('heroku-ssl-redirect');
-
-const PORT = process.env.PORT || 3000;
-
-if (!dev) {
-  app.use(sslRedirect());
-}
 
 app.prepare().then(() => {
-  createServer((req, res) => {
-    // Be sure to pass `true` as the second argument to `url.parse`.
-    // This tells it to parse the query portion of the URL.
-    const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
-  }).listen(PORT, err => {
+  const server = express();
+
+  if (!dev) {
+    server.use(sslRedirect());
+  }
+
+  server.get('*', (req, res) => {
+    return handle(req, res);
+  });
+
+  server.listen(port, err => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:' + PORT); // eslint-disable-line no-consle
+    console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
   });
 });
