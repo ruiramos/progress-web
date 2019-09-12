@@ -16,7 +16,14 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
 
-    return <Component {...pageProps} />;
+    return (
+      <React.Fragment>
+        <Head>
+          <title>Progress bot - web UI</title>
+        </Head>
+        <Component {...pageProps} />;
+      </React.Fragment>
+    );
   }
 }
 
