@@ -7,6 +7,7 @@ const Layout = props => (
       {`
         div {
           padding: 32px;
+          padding-bottom: 0;
         }
       `}
     </style>

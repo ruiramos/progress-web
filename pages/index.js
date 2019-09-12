@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import { useEffect } from 'react';
 import { getStandups } from '../api';
-import { Typography } from '@material-ui/core';
+import { Typography, Container } from '@material-ui/core';
 
 const SignInButton = ({ redirect_uri }) => {
   const linkHref = `https://slack.com/oauth/authorize?scope=identity.basic&client_id=2168708159.732663285622&redirect_uri=${redirect_uri}`;
@@ -35,12 +35,14 @@ const Index = props => {
 
   if (!token) {
     return (
-      <Layout>
-        <Typography style={{ marginBottom: 6 }}>
-          Please sign in with Slack to access your standups.
-        </Typography>
-        <SignInButton redirect_uri={props.redirect_uri} />
-      </Layout>
+      <Container>
+        <Layout>
+          <Typography style={{ marginBottom: 6 }}>
+            Please sign in with Slack to access your standups.
+          </Typography>
+          <SignInButton redirect_uri={props.redirect_uri} />
+        </Layout>
+      </Container>
     );
   } else {
     return null;
