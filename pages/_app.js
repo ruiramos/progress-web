@@ -21,7 +21,7 @@ class MyApp extends App {
         <Head>
           <title>Progress bot - web UI</title>
         </Head>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </React.Fragment>
     );
   }
