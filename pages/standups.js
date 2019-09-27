@@ -72,11 +72,12 @@ const EmptyStandup = () => {
   return <h4 style={{ color: '#aaa' }}>No entry today</h4>;
 };
 
-const Done = ({ done }) => {
+const Done = ({ done, view }) => {
   let val = Math.round(done * 100);
   let color = val > 70 ? 'green' : val < 20 ? 'red' : '#f7e314';
+  let style = view == GROUPINGS.day ? { marginTop: -4 } : {};
   return (
-    <div className="done-indicator">
+    <div className="done-indicator" style={style}>
       <div className="donut-chart">
         <svg viewBox="0 0 32 32">
           <circle
@@ -124,7 +125,10 @@ const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
         <p>{formatText(prev_day) || '-'}</p>
 
         {done && day ? (
-          <Done done={done.length / (day.split('\n').length || 1)} />
+          <Done
+            done={done.length / (day.split('\n').length || 1)}
+            view={grouping}
+          />
         ) : (
           ''
         )}
@@ -139,7 +143,10 @@ const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
     return (
       <div>
         {done && day ? (
-          <Done done={done.length / (day.split('\n').length || 1)} />
+          <Done
+            done={done.length / (day.split('\n').length || 1)}
+            view={grouping}
+          />
         ) : (
           ''
         )}
@@ -295,7 +302,7 @@ const Standups = () => {
 
             .done-indicator {
               float: right;
-              margin-top: -8px;
+              margin-top: -9px;
             }
 
             .donut-chart {
