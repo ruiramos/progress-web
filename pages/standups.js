@@ -186,7 +186,7 @@ const Standups = () => {
   const router = useRouter();
   let { weekDif, grouping } = router.query;
 
-  grouping = grouping || GROUPINGS.day;
+  grouping = grouping || GROUPINGS.progress;
   weekDif = +weekDif || 0;
 
   useEffect(() => {
