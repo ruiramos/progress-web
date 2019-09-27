@@ -19,7 +19,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 const Header = props => {
   const router = useRouter();
   let { grouping } = router.query;
-  grouping = grouping || 'day';
+  grouping = grouping || 'progress';
 
   const handleGrouping = (e, value) => {
     value &&
