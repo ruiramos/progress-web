@@ -77,16 +77,16 @@ const Done = ({ done }) => {
   let color = val > 70 ? 'green' : val < 20 ? 'red' : '#f7e314';
   return (
     <div className="done-indicator">
-      <div class="donut-chart">
+      <div className="donut-chart">
         <svg viewBox="0 0 32 32">
           <circle
             r="16"
             cx="16"
             cy="16"
-            style={{ 'stroke-dasharray': `${100 - val} 100`, fill: color }}
+            style={{ strokeDasharray: `${100 - val} 100`, fill: `${color}` }}
           />
         </svg>
-        <div class="donut-center">{val}%</div>
+        <div className="donut-center">{val}%</div>
       </div>
     </div>
   );
@@ -225,9 +225,10 @@ const Standups = () => {
   }, [weekDif]);
 
   let sortedData = data.sort((a, b) => {
+    console.log(users.user, a.username, b.username);
     if (!users.user) return 0;
-    if (a.username === users.user.username) return -1;
-    if (b.username === users.user.username) return 1;
+    if (a.username === users.user.id) return -1;
+    if (b.username === users.user.id) return 1;
     return 0;
   });
 
@@ -285,11 +286,11 @@ const Standups = () => {
 
             p.day-text {
               padding: 4px;
-              margin: -4px;
+              margin: 2px 0;
             }
 
             p.day-text.day-text-done {
-              background: #dfffe3;
+              background: rgba(204, 255, 206, 0.48);
             }
 
             .done-indicator {
