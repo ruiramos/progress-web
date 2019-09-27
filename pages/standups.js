@@ -120,7 +120,7 @@ const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
   if (grouping == GROUPINGS.day) {
     return (
       <div>
-        {done.length && day ? (
+        {done && day ? (
           <Done done={done.length / (day.split('\n').length || 1)} />
         ) : (
           ''
@@ -138,7 +138,7 @@ const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
   } else if (grouping == GROUPINGS.progress) {
     return (
       <div>
-        {done.length && day ? (
+        {done && day ? (
           <Done done={done.length / (day.split('\n').length || 1)} />
         ) : (
           ''
