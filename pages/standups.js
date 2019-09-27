@@ -120,14 +120,14 @@ const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
   if (grouping == GROUPINGS.day) {
     return (
       <div>
+        <h4>Previous day:</h4>
+        <p>{formatText(prev_day) || '-'}</p>
+
         {done && day ? (
           <Done done={done.length / (day.split('\n').length || 1)} />
         ) : (
           ''
         )}
-        <h4>Previous day:</h4>
-        <p>{formatText(prev_day) || '-'}</p>
-
         <h4>Today:</h4>
         <div>{formatDayText(day) || '-'}</div>
 
