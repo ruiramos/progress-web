@@ -109,7 +109,7 @@ const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
           <p
             key={i}
             className={`day-text ${
-              done.includes(i + 1) ? 'day-text-done' : ''
+              done && done.includes(i + 1) ? 'day-text-done' : ''
             }`}
           >
             <Linkify>{entities.decode(emoji.emojify(line, onMissing))}</Linkify>
