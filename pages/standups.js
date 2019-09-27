@@ -281,7 +281,7 @@ const Standups = () => {
             }
 
             .standups-table tr:nth-child(2n) td {
-              background: #f4f4f4;
+              background: #fafafa;
             }
 
             p.day-text {
