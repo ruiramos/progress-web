@@ -1,7 +1,7 @@
 /* eslint-env browser */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getStandups } from '../api';
+import { getStandups, getUsers } from '../api';
 import moment from 'moment';
 import nl2br from 'react-nl2br';
 import emoji from 'node-emoji';
@@ -71,24 +71,65 @@ function getTableData(raw, dates) {
 const EmptyStandup = () => {
   return <h4 style={{ color: '#aaa' }}>No entry today</h4>;
 };
-const Standup = ({ prev_day, day, blocker, next, grouping }) => {
+
+const Done = ({ done }) => {
+  let val = Math.round(done * 100);
+  let color = val > 70 ? 'green' : val < 20 ? 'red' : '#f7e314';
+  return (
+    <div className="done-indicator">
+      <div class="donut-chart">
+        <svg viewBox="0 0 32 32">
+          <circle
+            r="16"
+            cx="16"
+            cy="16"
+            style={{ 'stroke-dasharray': `${100 - val} 100`, fill: color }}
+          />
+        </svg>
+        <div class="donut-center">{val}%</div>
+      </div>
+    </div>
+  );
+};
+
+const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
   if (!prev_day && !day & !blocker) return <EmptyStandup />;
 
   const onMissing = name =>
     name === 'tick' ? emoji.emojify(':white_check_mark:') : `:${name}:`;
+
   const formatText = s =>
     s ? (
       <Linkify>{nl2br(entities.decode(emoji.emojify(s, onMissing)))}</Linkify>
     ) : null;
 
+  const formatDayText = s =>
+    s
+      ? s.split('\n').map((line, i) => (
+          <p
+            key={i}
+            className={`day-text ${
+              done.includes(i + 1) ? 'day-text-done' : ''
+            }`}
+          >
+            <Linkify>{entities.decode(emoji.emojify(line, onMissing))}</Linkify>
+          </p>
+        ))
+      : null;
+
   if (grouping == GROUPINGS.day) {
     return (
       <div>
+        {done.length ? (
+          <Done done={done.length / (day.split('\n').length || 1)} />
+        ) : (
+          ''
+        )}
         <h4>Previous day:</h4>
         <p>{formatText(prev_day) || '-'}</p>
 
         <h4>Today:</h4>
-        <p>{formatText(day) || '-'}</p>
+        <div>{formatDayText(day) || '-'}</div>
 
         <h4>Blockers:</h4>
         <p>{formatText(blocker) || '-'}</p>
@@ -134,6 +175,7 @@ const DateTh = ({ date }) => (
 
 const Standups = () => {
   const [data, setData] = useState([]);
+  const [users, setUsers] = useState({});
   const [dates, setDates] = useState([]);
 
   const router = useRouter();
@@ -141,6 +183,15 @@ const Standups = () => {
 
   grouping = grouping || GROUPINGS.day;
   weekDif = +weekDif || 0;
+
+  useEffect(() => {
+    async function fetchData() {
+      let users = await getUsers();
+      setUsers(users);
+    }
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -167,6 +218,13 @@ const Standups = () => {
 
     fetchData();
   }, [weekDif]);
+
+  let sortedData = data.sort((a, b) => {
+    if (!users.user) return 0;
+    if (a.username === users.user.username) return -1;
+    if (b.username === users.user.username) return 1;
+    return 0;
+  });
 
   return (
     <Layout inApp={true}>
@@ -219,19 +277,70 @@ const Standups = () => {
             .standups-table tr:nth-child(2n) td {
               background: #f4f4f4;
             }
+
+            p.day-text {
+              padding: 4px;
+              margin: -4px;
+            }
+
+            p.day-text.day-text-done {
+              background: #dfffe3;
+            }
+
+            .done-indicator {
+              float: right;
+              margin-top: -8px;
+            }
+
+            .donut-chart {
+              height: 40px;
+              width: 40px;
+              position: relative;
+            }
+
+            .donut-chart svg {
+              width: 100%;
+              height: 100%;
+              transform: rotate(-90deg);
+              background: rgba(0, 0, 0, 0.3);
+              border-radius: 50%;
+            }
+
+            .donut-chart circle {
+              fill: green;
+              stroke: #fff;
+              stroke-width: 32;
+              stroke-dasharray: 0 100;
+              transition: stroke-dasharray 0.5s ease;
+            }
+
+            .donut-center {
+              background: #fff;
+              border-radius: 50%;
+              position: absolute;
+              height: 80%;
+              width: 80%;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              line-height: 34px;
+              font-weight: 600;
+              text-align: center;
+              font-size: 0.8em;
+            }
           `}
         </style>
         <Table stickyHeader={true} className="standups-table">
           <TableHead>
             <TableRow>
               <TableCell>Users</TableCell>
-              {dates.map(date => (
-                <DateTh date={date} />
+              {dates.map((date, i) => (
+                <DateTh date={date} key={i} />
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map(user => (
+            {sortedData.map(user => (
               <TableRow>
                 <TableCell>
                   <User {...user} />

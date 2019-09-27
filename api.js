@@ -11,6 +11,10 @@ export async function getStandups(dateFrom, dateTo) {
   );
 }
 
+export async function getUsers() {
+  return makeGetRequest(`/users`);
+}
+
 async function makeGetRequest(endpoint) {
   const token = getToken();
   let req = await fetch(`${apiUrl}${endpoint}`, {
