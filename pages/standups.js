@@ -150,10 +150,10 @@ const Standup = ({ prev_day, day, blocker, next, grouping, done = [] }) => {
         ) : (
           ''
         )}
-        <h4>Today planned:</h4>
+        <h4>Today:</h4>
         <p>{formatDayText(day) || '-'}</p>
 
-        <h4>Today actual:</h4>
+        <h4>Today extra:</h4>
         <p>
           {(next && next.prev_day ? formatText(next.prev_day) : '-') || '-'}
         </p>
